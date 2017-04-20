@@ -34,3 +34,4 @@ standard pixel processing direction
 The project consists of two subprojects. The command line tool (cmd) and a graphical user interface (gui)
 The cmd project is a standalone project.
 The gui project is just a graphical user interface for the command line tool and not a standalone tool
+For the gui the both executables (imageConverterCmd and imageConverterGui) have to be in the same directory.
