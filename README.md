@@ -30,3 +30,7 @@ standard pixel processing direction
 - from left to right
 - from top to bottom
 - possible to change the directions
+
+The project consists of two subprojects. The command line tool (cmd) and a graphical user interface (gui)
+The cmd project is a standalone project.
+The gui project is just a graphical user interface for the command line tool and not a standalone tool
