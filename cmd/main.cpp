@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void writeOutputByte(int *bytesPerRow, int bytesPerRowInit,int *totalByteCount, QTextStream *output, QString byte, bool isLastPixel);
+void writeOutputByte(int *bytesPerRow, int bytesPerRowInit, int *totalByteCount, QTextStream *output, QString byte, bool isLastPixel);
 
 int main(int argc, char *argv[])
 {
@@ -68,19 +68,20 @@ int main(int argc, char *argv[])
 	parser.addOption(formatOption);
 
 	QCommandLineOption mirrorHorizontallyOption(
-				QStringList() << "h" << "mirror-horizontally",
+				QStringList() << "mh" << "mirror-horizontally",
 				"mirror the image horizontally");
 	parser.addOption(mirrorHorizontallyOption);
 
 	QCommandLineOption mirrorVerticallyOption(
-				QStringList() << "v" << "mirror-vertically",
+				QStringList() << "mv" << "mirror-vertically",
 				"mirror the image vertically");
 	parser.addOption(mirrorVerticallyOption);
 
 	QCommandLineOption bytesPerRowOption(
 				QStringList() << "b" << "bytes-per-row",
 				"number of bytes per row in c-code before a new line command\n" \
-				"default value: " + QString::number(BYTES_PER_ROW));
+				"default value: " + QString::number(BYTES_PER_ROW),
+				"byteNum");
 	bytesPerRowOption.setDefaultValue(QString::number(BYTES_PER_ROW));
 	parser.addOption(bytesPerRowOption);
 
@@ -302,11 +303,12 @@ int main(int argc, char *argv[])
 		}
 	}
 	outputStream						<< "\n};";
+	outputStream						<< "// array size " << totalByteCount << " bytes";
 	cout << "image converted to " << outputFile.fileName().toStdString() << endl;
 	outputFile.close();
 }
 
-void writeOutputByte(int *bytesPerRow, int bytesPerRowInit,int *totalByteCount, QTextStream *outputStream, QString byte, bool isLastPixel)
+void writeOutputByte(int *bytesPerRow, int bytesPerRowInit, int *totalByteCount, QTextStream *outputStream, QString byte, bool isLastPixel)
 {
 	*outputStream					<< "0x" << byte;
 	if(!isLastPixel)
@@ -319,5 +321,5 @@ void writeOutputByte(int *bytesPerRow, int bytesPerRowInit,int *totalByteCount, 
 		*outputStream				<< "\n\t";
 		*bytesPerRow				= bytesPerRowInit;
 	}
-	*totalByteCount++;
+	(*totalByteCount)++;
 }
